@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /PlotterDuck/Resources/Raw/plotterduck-firebase-adminsdk.json
 /PlotterDuck/Platforms/Android/Resources/plotterduck-firebase-adminsdk.json
+/PlotterDuck/Resources/plotterduck-firebase-adminsdk.json
