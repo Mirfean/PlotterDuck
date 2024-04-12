@@ -18,11 +18,29 @@ namespace PlotterDuck.Components.Models
             firebase = new FirebaseClient(FirebaseDatabaseUrl);
         }
 
+        public async Task<List<Character>> GetCharacters2()
+        {
+			var characters = await firebase.Child("Characters").OnceAsync<Character>();
+
+			var charactersList = new List<Character>();
+			foreach (var firebaseObject in characters)
+			{
+				charactersList.Add(firebaseObject.Object);
+			}
+			return charactersList;
+		}
+
         public async Task<List<Character>> GetCharacters()
         {
-            var characters = new List<Character>();
-            return characters;
-        }
+            var characters = await firebase.Child("Characters").OnceAsListAsync<Character>();
+
+			var charactersList = new List<Character>();
+			foreach (var firebaseObject in characters)
+			{
+				charactersList.Add(firebaseObject.Object);
+			}
+			return charactersList;
+		}
 
         public async Task AddCharacter(Character character)
         {

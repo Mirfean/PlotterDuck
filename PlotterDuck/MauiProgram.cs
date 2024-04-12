@@ -2,6 +2,9 @@
 using Google.Apis.Auth.OAuth2;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Storage;
+using Google.Cloud.Storage.V1;
+using System.Resources;
+using PlotterDuck.Components.Models;
 
 namespace PlotterDuck
 {
@@ -16,11 +19,31 @@ namespace PlotterDuck
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
-            FirebaseApp.Create(new AppOptions()
+
+
+            #region My code
+
+            if(PlatformHelper.IsAndroid())
             {
-                Credential = GoogleCredential.FromFile("P:\\Projects\\.Net\\PlotterDuck\\PlotterDuck\\Resources\\plotterduck-firebase-adminsdk.json"),
-                ProjectId = "plotterduck",
-            });
+				
+			}
+            else
+            {
+				var GOOGLE_APPLICATION_CREDENTIALS = PlatformHelper.getCredentials();
+				GoogleAuthCloudServices googleAuthCloudService = new GoogleAuthCloudServices();
+
+				FirebaseApp.Create(new AppOptions()
+				{
+					//Credential = GoogleCredential.GetApplicationDefault(),
+					Credential = GoogleCredential.FromFile(GOOGLE_APPLICATION_CREDENTIALS),
+					//Credential = googleAuthCloudService.GetStorageClient(),
+
+					ProjectId = "plotterduck",
+				});
+			}
+            
+
+            #endregion
 
             builder.Services.AddMauiBlazorWebView();
 

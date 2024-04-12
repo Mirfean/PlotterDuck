@@ -16,6 +16,12 @@
     <label for="race">Race:</label>
     <input type="text" id="race" name="race" @bind="@character.Race" />
 
+    <label for="class">Class:</label>
+    <input type="text" id="class" name="class" @bind="@character.Class" />
+
+    <label for="fraction">Fraction:</label>
+    <input type="text" id="fraction" name="fraction" @bind="@character.Fraction"/>
+
     <button type="submit" @onclick="CreateNewCharacter">Create Character</button>
 </form>
 
@@ -27,6 +33,7 @@
 
     private async void CreateNewCharacter()
     {
+
         await characterService.AddCharacter(character);
 	}
 }

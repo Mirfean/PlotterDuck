@@ -1,7 +1,81 @@
-﻿<h3>Character_List</h3>
+﻿@page "/characters-list"
+@using Firebase.Database
+@using PlotterDuck.Components.Models
+
+<style>
+	.custom-th{
+		background-color: forestgreen;
+		color: white;
+		width: 100px;
+	}
+</style>
+
+<h3>Character_List</h3>
+
+Number of Characters: @debug
+
+<table>
+	<thead>
+		<tr>
+			<th class="custom-th">First Name</th>
+			<th class="custom-th">Last Name</th>
+			<th class="custom-th">Age</th>
+
+			<th class="custom-th">Race</th>
+			<th class="custom-th">Class</th>
+			<th class="custom-th">Fraction</th>
+			<th class="custom-th">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var character in @characters)
+		{
+			<tr>
+				<td>@character.FName</td>
+				<td>@character.LName</td>
+				<td>@character.Age</td>
+
+				<td>@character.Race</td>
+				<td>@character.Class</td>
+				<td>@character.Fraction</td>
+				
+				<td>@character.Description</td>
+			</tr>
+		}
+	</tbody>
+</table>
 
 
 
 @code {
+	private List<Character> characters = new List<Character>();
+	private CharacterService characterService = new CharacterService();
+	private List<FirebaseObject<Character>> tempcharacters = new List<FirebaseObject<Character>>();
+	private IReadOnlyCollection<FirebaseObject<Character>> characters1 = new List<FirebaseObject<Character>>();
+	private List<Character> characters2 = new List<Character>();
 
+	public string debug = "debug";
+
+	protected override async Task OnInitializedAsync()
+	{
+		debug = "Loading...";
+		characters = await characterService.GetCharacters2();
+		await Task.Delay(1000);
+
+		Siemanko(characters.Count.ToString());
+
+		/*characters1 = await characterService.GetTypoo();
+		foreach (var x in characters1)
+		{
+			characters.Add(x.Object);
+		}*/
+
+
+		//foreach (var x in characterService.GetTypoo())
+	}
+
+	public void Siemanko(string message)
+	{
+		debug = message;
+	}
 }
