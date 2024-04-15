@@ -36,13 +36,10 @@ namespace PlotterDuck
 				{
 					//Credential = GoogleCredential.GetApplicationDefault(),
 					Credential = GoogleCredential.FromFile(GOOGLE_APPLICATION_CREDENTIALS),
-					//Credential = googleAuthCloudService.GetStorageClient(),
-
 					ProjectId = "plotterduck",
 				});
 			}
             
-
             #endregion
 
             builder.Services.AddMauiBlazorWebView();

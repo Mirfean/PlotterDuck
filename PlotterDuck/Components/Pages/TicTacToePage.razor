@@ -1,0 +1,69 @@
+﻿@page "/tic-tac-toe"
+@using PlotterDuck.Components.Models.TicTacToe
+<h3>Tic Tac Toe</h3>
+
+@result
+<n/>
+@player : @enemy
+
+<table>
+	<tr>
+		<td><button @onclick="() => BoxClick(0)">0</button></td>
+		<td><button @onclick="() => BoxClick(1)">1</button></td>
+		<td><button @onclick="() => BoxClick(2)">2</button></td>
+	</tr>
+	<tr>
+		<td><button @onclick="() => BoxClick(3)">3</button></td>
+		<td><button @onclick="() => BoxClick(4)">4</button></td>
+		<td><button @onclick="() => BoxClick(5)">5</button></td>
+	</tr>
+	<tr>
+		<td><button @onclick="() => BoxClick(6)">6</button></td>
+		<td><button @onclick="() => BoxClick(7)">7</button></td>
+		<td><button @onclick="() => BoxClick(8)">8</button></td>
+	</tr>
+</table>
+
+<button @onclick="ResetBoard">Reset</button>
+
+@code {
+	TicTacToeArbiter arbiter = new TicTacToeArbiter();
+
+	string result = "";
+	int player, enemy = 0;
+
+	protected override void OnInitialized()
+	{
+		ResetBoard();
+	}
+
+	protected void ResetBoard()
+	{
+		arbiter.Board.Reset();
+		
+		result = "";
+	}
+
+	void BoxClick(int x)
+	{
+		if(arbiter.Board.BoardState[x] == TTTBoxState.Empty)
+		{
+			arbiter.Board.SetBox(x, true);
+
+			if(arbiter.CheckWin(true))
+			{
+				result = "Player wins!";
+				ResetBoard();
+				return;
+			}
+
+			arbiter.Board.SetBox(arbiter.GetBestMove(), false);
+			if(arbiter.CheckWin(false))
+			{
+				result = "Enemy wins!";
+				ResetBoard();
+				return;
+			}
+		}
+	}
+}

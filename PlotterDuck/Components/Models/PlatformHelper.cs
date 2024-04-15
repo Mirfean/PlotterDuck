@@ -37,7 +37,7 @@ namespace PlotterDuck.Components.Models
 		{
 			if (IsWindows())
 			{
-				return "P:\\Projects\\.Net\\PlotterDuck\\PlotterDuck\\Resources\\Raw\\plotterduck-firebase-adminsdk.json";
+				return "P:\\Projects\\.Net\\PlotterDuck\\PlotterDuck\\Resources\\plotterduck-firebase-adminsdk.json";
 			}
 			else if (IsAndroid())
 			{
