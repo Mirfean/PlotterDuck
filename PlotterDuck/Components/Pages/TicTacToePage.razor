@@ -7,21 +7,16 @@
 @player : @enemy
 
 <table>
-	<tr>
-		<td><button @onclick="() => BoxClick(0)">0</button></td>
-		<td><button @onclick="() => BoxClick(1)">1</button></td>
-		<td><button @onclick="() => BoxClick(2)">2</button></td>
-	</tr>
-	<tr>
-		<td><button @onclick="() => BoxClick(3)">3</button></td>
-		<td><button @onclick="() => BoxClick(4)">4</button></td>
-		<td><button @onclick="() => BoxClick(5)">5</button></td>
-	</tr>
-	<tr>
-		<td><button @onclick="() => BoxClick(6)">6</button></td>
-		<td><button @onclick="() => BoxClick(7)">7</button></td>
-		<td><button @onclick="() => BoxClick(8)">8</button></td>
-	</tr>
+	@for(int x = 0; x < 3; x++)
+	{
+		<tr>
+		@for(int y = 0; y < 3; y++)
+		{
+			int box_index = x*3 + y;
+			<td><img src=@boardIMGpaths[box_index] @onclick="() => BoxClick(box_index)"></td>
+		}
+		</tr>
+	}
 </table>
 
 <button @onclick="ResetBoard">Reset</button>
@@ -29,8 +24,19 @@
 @code {
 	TicTacToeArbiter arbiter = new TicTacToeArbiter();
 
+	bool gameEnded = false;
+
+	string[] boardIMGpaths = new string[9];
+
 	string result = "";
+
 	int player, enemy = 0;
+
+
+	string imagesDir = "TicTacToe";
+	string emptyImage = "TTT_empty.png";
+	string playerImage = "TTT_X.png";
+	string enemyImage = "TTT_O.png";
 
 	protected override void OnInitialized()
 	{
@@ -40,29 +46,45 @@
 	protected void ResetBoard()
 	{
 		arbiter.Board.Reset();
-		
 		result = "";
+		gameEnded = false;
+		for(int x = 0; x < boardIMGpaths.Count(); x++)
+		{
+			boardIMGpaths[x] = @Path.Combine(@imagesDir, emptyImage);
+		}
+
 	}
 
 	void BoxClick(int x)
 	{
-		if(arbiter.Board.BoardState[x] == TTTBoxState.Empty)
+		if(arbiter.Board.Boardstates[x] == TTTBoxState.Empty && !gameEnded)
 		{
 			arbiter.Board.SetBox(x, true);
+			boardIMGpaths[x] = @Path.Combine(@imagesDir, playerImage);
 
 			if(arbiter.CheckWin(true))
 			{
 				result = "Player wins!";
-				ResetBoard();
+				gameEnded = true;
 				return;
 			}
 
-			arbiter.Board.SetBox(arbiter.GetBestMove(), false);
-			if(arbiter.CheckWin(false))
+			int? enemyMove = arbiter.GetBestMove();
+			if(enemyMove != null)
 			{
-				result = "Enemy wins!";
-				ResetBoard();
-				return;
+				int enemyMoveInt = (int)enemyMove;
+				arbiter.Board.SetBox(enemyMoveInt, false);
+				boardIMGpaths[enemyMoveInt] = @Path.Combine(@imagesDir, enemyImage);
+				if (arbiter.CheckWin(false))
+				{
+					result = "Enemy wins!";
+					gameEnded = true;
+					return;
+				}
+			}
+			else
+			{
+				Console.WriteLine("No moves left");
 			}
 		}
 	}

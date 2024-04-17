@@ -10,11 +10,11 @@ namespace PlotterDuck.Components.Models.TicTacToe
 
     internal class TicTacToeBoard
     {
-		public TTTBoxState[] BoardState;
+		public TTTBoxState[] Boardstates;
 
 		public TicTacToeBoard()
         {
-			BoardState = new TTTBoxState[9];
+			Boardstates = new TTTBoxState[9];
 		}
 
 		public void SetBox(int index, bool player)
@@ -31,14 +31,14 @@ namespace PlotterDuck.Components.Models.TicTacToe
 
 		void SetBox(int index, TTTBoxState state)
 		{
-			BoardState[index] = state;
+			Boardstates[index] = state;
 		}
 
 		public void Reset()
 		{
 			for(int i = 0; i < 9; i++)
 			{
-				BoardState[i] = TTTBoxState.Empty;
+				Boardstates[i] = TTTBoxState.Empty;
 			}
 		}
 	}

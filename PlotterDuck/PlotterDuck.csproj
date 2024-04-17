@@ -75,7 +75,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Images\TicTacToe\" />
+      <Folder Include="wwwroot\TicTacToe\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\TicTacToe\TTT_empty.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="wwwroot\TicTacToe\TTT_O.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Include="wwwroot\TicTacToe\TTT_X.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

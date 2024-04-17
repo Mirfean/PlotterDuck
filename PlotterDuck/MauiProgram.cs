@@ -5,6 +5,7 @@ using Microsoft.Maui.Storage;
 using Google.Cloud.Storage.V1;
 using System.Resources;
 using PlotterDuck.Components.Models;
+using PlotterDuck.Components.Models.Firebase;
 
 namespace PlotterDuck
 {

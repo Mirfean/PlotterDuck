@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlotterDuck.Components.Models
+namespace PlotterDuck.Components.Models.Characters
 {
     public class Character
     {
@@ -25,6 +25,6 @@ namespace PlotterDuck.Components.Models
         public string Race { get => ch_race; set => ch_race = value; }
         public string Fraction { get => ch_fraction; set => ch_fraction = value; }
         public string Class { get => ch_class; set => ch_class = value; }
-		public string Description { get => description; set => description = value; }
-	}
+        public string Description { get => description; set => description = value; }
+    }
 }

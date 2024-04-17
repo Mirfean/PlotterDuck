@@ -1,6 +1,7 @@
 ﻿@page "/characters-list"
 @using Firebase.Database
-@using PlotterDuck.Components.Models
+@using PlotterDuck.Components.Models;
+@using PlotterDuck.Components.Models.Characters
 
 <style>
 	.custom-th{
@@ -60,18 +61,7 @@ Number of Characters: @debug
 	{
 		debug = "Loading...";
 		characters = await characterService.GetCharacters2();
-		//await Task.Delay(1000);
-
 		Siemanko(characters.Count.ToString());
-
-		/*characters1 = await characterService.GetTypoo();
-		foreach (var x in characters1)
-		{
-			characters.Add(x.Object);
-		}*/
-
-
-		//foreach (var x in characterService.GetTypoo())
 	}
 
 	public void Siemanko(string message)

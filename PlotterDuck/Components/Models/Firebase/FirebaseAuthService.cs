@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Firebase;
 
-namespace PlotterDuck.Components.Models
+namespace PlotterDuck.Components.Models.Firebase
 {
     internal class FirebaseAuthService
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlotterDuck.Components.Models
+namespace PlotterDuck.Components.Models.Characters
 {
     public class CharacterService
     {
@@ -20,27 +20,27 @@ namespace PlotterDuck.Components.Models
 
         public async Task<List<Character>> GetCharacters2()
         {
-			var characters = await firebase.Child("Characters").OnceAsync<Character>();
+            var characters = await firebase.Child("Characters").OnceAsync<Character>();
 
-			var charactersList = new List<Character>();
-			foreach (var firebaseObject in characters)
-			{
-				charactersList.Add(firebaseObject.Object);
-			}
-			return charactersList;
-		}
+            var charactersList = new List<Character>();
+            foreach (var firebaseObject in characters)
+            {
+                charactersList.Add(firebaseObject.Object);
+            }
+            return charactersList;
+        }
 
         public async Task<List<Character>> GetCharacters()
         {
             var characters = await firebase.Child("Characters").OnceAsListAsync<Character>();
 
-			var charactersList = new List<Character>();
-			foreach (var firebaseObject in characters)
-			{
-				charactersList.Add(firebaseObject.Object);
-			}
-			return charactersList;
-		}
+            var charactersList = new List<Character>();
+            foreach (var firebaseObject in characters)
+            {
+                charactersList.Add(firebaseObject.Object);
+            }
+            return charactersList;
+        }
 
         public async Task AddCharacter(Character character)
         {

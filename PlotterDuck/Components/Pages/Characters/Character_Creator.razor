@@ -1,5 +1,6 @@
 ﻿@page "/character-creator"
-@using PlotterDuck.Components.Models
+@using PlotterDuck.Components.Models.Characters
+
 
 <h3>Character_Creator</h3>
 
@@ -29,8 +30,6 @@
 @code {
     private Character character = new Character();
     private CharacterService characterService = new CharacterService();
-
-
 
     private async void CreateNewCharacter()
     {

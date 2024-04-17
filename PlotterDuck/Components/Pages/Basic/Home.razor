@@ -9,6 +9,15 @@ Welcome to your new app.
 
 @FileSystem.AppDataDirectory
 <br>
+<p>Base </p>
+@AppContext.BaseDirectory
+<br>
+@FileSystem.CacheDirectory
+<br>
+@FileSystem.OpenAppPackageFileAsync("Resources/TTT_empty.png");
+<br>
+@Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
+<br>
 Application Data:
 @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 <br>
@@ -21,4 +30,7 @@ Resources:
 @code
 {
     string message = PlatformHelper.getPersonal();
+
+    //var reader = new StreamReader(FileSystem.OpenAppPackageFileAsync("Resources/TTT_empty.png"));
+
 }
