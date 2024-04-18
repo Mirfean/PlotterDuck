@@ -1,10 +1,14 @@
 ﻿@page "/tic-tac-toe"
+@using PlotterDuck.Components.Models.SQLDB
 @using PlotterDuck.Components.Models.TicTacToe
 <h3>Tic Tac Toe</h3>
 
 @result
-<n/>
-@player : @enemy
+<br />
+@CurrentEnemyBot.botName;
+<br/>
+@CurrentEnemyBot.playerWins : @CurrentEnemyBot.enemyWins
+<br />
 
 <table>
 	@for(int x = 0; x < 3; x++)
@@ -24,9 +28,15 @@
 @code {
 	TicTacToeArbiter arbiter = new TicTacToeArbiter();
 
+	Sql_TTT_Enemy enemySQL = new Sql_TTT_Enemy();
+
+	Bot_TTT CurrentEnemyBot = new Bot_TTT();
+
 	bool gameEnded = false;
 
 	string[] boardIMGpaths = new string[9];
+
+	string current_enemy = "";
 
 	string result = "";
 
@@ -41,6 +51,18 @@
 	protected override void OnInitialized()
 	{
 		ResetBoard();
+		GetEnemy();
+		//await enemySQL.SaveBotAsync(new Bot_TTT("Jay", 0, 1, 2));
+		//var item = await enemySQL.GetEnemies();
+		//enemySQL.AddEnemy("Jay", 0, 1, 2);
+	}
+
+	private async void GetEnemy()
+	{
+		var x = await enemySQL.SaveBotAsync(new Bot_TTT("Jay", 0, 1, 2));
+		var item = await enemySQL.GetEnemies();
+		CurrentEnemyBot = item[0];
+		
 	}
 
 	protected void ResetBoard()
