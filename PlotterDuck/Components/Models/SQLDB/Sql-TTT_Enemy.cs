@@ -99,5 +99,11 @@ namespace PlotterDuck.Components.Models.SQLDB
 			return false;
 		}
 		
+		public bool UpdateEnemyScore(string botName, int playerScore, int enemyScore)
+		{
+			string query = $"UPDATE {typeof(Bot_TTT).ToString} SET {PLAYERWINS} = @PlayerWins, {ENEMYWINS} = @EnemyWins WHERE {BOTNAME} = @BotName";
+			var result = ConnectedDB.ExecuteAsync(query, new { PlayerWins = playerScore, EnemyWins = enemyScore, BotName = botName });
+			return result.Result > 0;
+		}
 	}
 }

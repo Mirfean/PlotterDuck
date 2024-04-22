@@ -5,10 +5,16 @@
 
 @result
 <br />
-@CurrentEnemyBot.botName;
-<br/>
-@CurrentEnemyBot.playerWins : @CurrentEnemyBot.enemyWins
-<br />
+@if(@BotsList.Count > 0)
+{
+	@CurrentEnemyBot.botName
+	<br/>
+	<p>@CurrentEnemyBot.playerWins : @CurrentEnemyBot.enemyWins</p>
+}
+else
+{
+	<p>No enemies found</p>
+}
 
 <table>
 	@for(int x = 0; x < 3; x++)
@@ -32,6 +38,8 @@
 
 	Bot_TTT CurrentEnemyBot = new Bot_TTT();
 
+	List<Bot_TTT> BotsList = new List<Bot_TTT>();
+
 	bool gameEnded = false;
 
 	string[] boardIMGpaths = new string[9];
@@ -52,6 +60,7 @@
 	{
 		ResetBoard();
 		GetEnemy();
+
 		//await enemySQL.SaveBotAsync(new Bot_TTT("Jay", 0, 1, 2));
 		//var item = await enemySQL.GetEnemies();
 		//enemySQL.AddEnemy("Jay", 0, 1, 2);
@@ -59,10 +68,10 @@
 
 	private async void GetEnemy()
 	{
-		var x = await enemySQL.SaveBotAsync(new Bot_TTT("Jay", 0, 1, 2));
-		var item = await enemySQL.GetEnemies();
-		CurrentEnemyBot = item[0];
-		
+		//var x = await enemySQL.SaveBotAsync(new Bot_TTT("Jay", 0, 1, 2));
+		BotsList = await enemySQL.GetEnemies();
+		CurrentEnemyBot = BotsList[0];
+		StateHasChanged();
 	}
 
 	protected void ResetBoard()
@@ -88,6 +97,8 @@
 			{
 				result = "Player wins!";
 				gameEnded = true;
+				CurrentEnemyBot.playerWins++;
+				enemySQL.UpdateEnemyScore(CurrentEnemyBot.botName, CurrentEnemyBot.playerWins, CurrentEnemyBot.enemyWins);
 				return;
 			}
 
@@ -101,6 +112,8 @@
 				{
 					result = "Enemy wins!";
 					gameEnded = true;
+					CurrentEnemyBot.enemyWins++;
+					enemySQL.UpdateEnemyScore(CurrentEnemyBot.botName, CurrentEnemyBot.playerWins, CurrentEnemyBot.enemyWins);
 					return;
 				}
 			}
