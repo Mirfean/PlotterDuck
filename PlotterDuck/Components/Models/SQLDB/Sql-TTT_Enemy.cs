@@ -72,38 +72,14 @@ namespace PlotterDuck.Components.Models.SQLDB
 		//TODO: Make method to add enemy to database
 		public bool AddEnemy(string enemyName, int strenght = 0, int playerScore = 0, int enemyScore = 0)
 		{
-			
-			string query = $"INSERT INTO TTT_Enemy ({BOTNAME}, {PLAYERWINS}, {ENEMYWINS}, {STRENGHT}) " +
-				"VALUES (@BotName, @PlayerWins, @EnemyWins, @Strenght)";
-			/*
-						connection.Open();
-
-						using (SqlCommand command = new SqlCommand(query, connection))
-						{
-							command.Parameters.AddWithValue("@BotName", enemyName);
-							command.Parameters.AddWithValue("@PlayerWins", playerScore);
-							command.Parameters.AddWithValue("@EnemyWins", enemyScore);
-							command.Parameters.AddWithValue("@Strenght", strenght);
-
-
-
-							if(command.ExecuteNonQuery() > 0)
-							{
-								return true;
-							}
-							else
-							{
-								return false;
-							}
-						}*/
 			return false;
 		}
 		
-		public bool UpdateEnemyScore(string botName, int playerScore, int enemyScore)
+		public async Task<bool> UpdateEnemyScore(Bot_TTT bot)
 		{
-			string query = $"UPDATE {typeof(Bot_TTT).ToString} SET {PLAYERWINS} = @PlayerWins, {ENEMYWINS} = @EnemyWins WHERE {BOTNAME} = @BotName";
-			var result = ConnectedDB.ExecuteAsync(query, new { PlayerWins = playerScore, EnemyWins = enemyScore, BotName = botName });
-			return result.Result > 0;
+			var result = await ConnectedDB.UpdateAsync(bot);
+
+			return result > 0;
 		}
 	}
 }

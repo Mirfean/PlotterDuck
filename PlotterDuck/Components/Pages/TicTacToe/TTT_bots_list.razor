@@ -1,0 +1,20 @@
+﻿@using PlotterDuck.Components.Models.TicTacToe
+
+Changed bot @exe_times times
+@foreach (Bot_TTT bot in BotsList)
+{
+	<button @onclick="() => OnButtonClick(bot)">@bot.botName</button>
+}
+
+@code {
+	[Parameter] public List<Bot_TTT> BotsList { get; set; }
+	[Parameter] public EventCallback<Bot_TTT> OnButtonClicked { get; set; }
+
+	public int exe_times = 0;
+
+	private async Task OnButtonClick(Bot_TTT bot)
+	{
+		exe_times++;
+		await OnButtonClicked.InvokeAsync(bot);
+	}
+}

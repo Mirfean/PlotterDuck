@@ -1,6 +1,7 @@
 ﻿@page "/tic-tac-toe"
 @using PlotterDuck.Components.Models.SQLDB
 @using PlotterDuck.Components.Models.TicTacToe
+@using PlotterDuck.Components.Pages.Characters
 <h3>Tic Tac Toe</h3>
 
 @result
@@ -29,6 +30,17 @@ else
 	}
 </table>
 
+<br/>
+
+@if(databaseLoaded && BotsList.Count > 0)
+{
+	<TTT_bots_list BotsList=BotsList OnButtonClicked="ChangeEnemyButton"/>
+}
+else{
+	<p>Loading...</p>
+}
+
+
 <button @onclick="ResetBoard">Reset</button>
 
 @code {
@@ -41,6 +53,8 @@ else
 	List<Bot_TTT> BotsList = new List<Bot_TTT>();
 
 	bool gameEnded = false;
+
+	bool databaseLoaded = false;
 
 	string[] boardIMGpaths = new string[9];
 
@@ -71,6 +85,7 @@ else
 		//var x = await enemySQL.SaveBotAsync(new Bot_TTT("Jay", 0, 1, 2));
 		BotsList = await enemySQL.GetEnemies();
 		CurrentEnemyBot = BotsList[0];
+		databaseLoaded = true;
 		StateHasChanged();
 	}
 
@@ -86,7 +101,7 @@ else
 
 	}
 
-	void BoxClick(int x)
+	async void BoxClick(int x)
 	{
 		if(arbiter.Board.Boardstates[x] == TTTBoxState.Empty && !gameEnded)
 		{
@@ -98,7 +113,7 @@ else
 				result = "Player wins!";
 				gameEnded = true;
 				CurrentEnemyBot.playerWins++;
-				enemySQL.UpdateEnemyScore(CurrentEnemyBot.botName, CurrentEnemyBot.playerWins, CurrentEnemyBot.enemyWins);
+				await enemySQL.UpdateEnemyScore(CurrentEnemyBot);
 				return;
 			}
 
@@ -113,7 +128,7 @@ else
 					result = "Enemy wins!";
 					gameEnded = true;
 					CurrentEnemyBot.enemyWins++;
-					enemySQL.UpdateEnemyScore(CurrentEnemyBot.botName, CurrentEnemyBot.playerWins, CurrentEnemyBot.enemyWins);
+					await enemySQL.UpdateEnemyScore(CurrentEnemyBot);
 					return;
 				}
 			}
@@ -121,6 +136,16 @@ else
 			{
 				Console.WriteLine("No moves left");
 			}
+		}
+	}
+
+	public void ChangeEnemyButton(Bot_TTT bot_)
+	{
+		if(bot_ != null)
+		{
+			CurrentEnemyBot = bot_;
+			result = "Changing enemy to " + CurrentEnemyBot.botName;
+			StateHasChanged();
 		}
 	}
 }
