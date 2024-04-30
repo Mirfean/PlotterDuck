@@ -117,7 +117,7 @@ else{
 				return;
 			}
 
-			int? enemyMove = arbiter.GetBestMove();
+			int? enemyMove = arbiter.GetBestMove(CurrentEnemyBot.strenght);
 			if(enemyMove != null)
 			{
 				int enemyMoveInt = (int)enemyMove;
