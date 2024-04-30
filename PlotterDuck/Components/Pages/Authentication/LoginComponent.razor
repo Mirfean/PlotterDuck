@@ -1,0 +1,51 @@
+﻿@page "/authForm"
+@using System.Text.RegularExpressions
+@using PlotterDuck.Components.Models.Firebase
+
+<EditForm Model="@formData" OnValidSubmit="@Login">
+@*     <AntiforgeryToken /> *@
+    <label>Username:</label>
+    <InputText @bind-Value=formData.username />
+    <ValidationMessage For="@(() => formData.username)" />
+    <br />
+    <label>Password:</label>
+    <InputText type="password" @bind-Value=formData.password />
+    <ValidationMessage For="@(() => formData.password)" />
+
+    <button type="submit">Log in</button>
+</EditForm>
+
+@Info
+
+@code{
+
+    AuthData formData = new AuthData();
+
+    string Info = "";
+
+    public void Login()
+    {
+        if (IsValidUsername(formData.username) && IsValidPassword(formData.password))
+        {
+            Info = "Login in progress...";
+        }
+        else
+        {
+            Info = "Invalid username or password. Please try again.";
+        }
+    }
+
+    private bool IsValidUsername(string username)
+    {
+        // Use regex to check if username is minimum 6 letters long
+        string pattern = @"^[a-zA-Z]{6,}$";
+        return Regex.IsMatch(username, pattern);
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        // Use regex to check if password is 8 characters long and contains at least one special symbol and one number
+        string pattern = @"^(?=.*[!@#$%^&*(),.?\:{}|<>])(?=.*[0-9]).{8,}$";
+        return Regex.IsMatch(password, pattern);
+    }
+}
