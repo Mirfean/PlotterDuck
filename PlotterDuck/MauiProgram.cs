@@ -6,6 +6,8 @@ using Google.Cloud.Storage.V1;
 using System.Resources;
 using PlotterDuck.Components.Models;
 using PlotterDuck.Components.Models.Firebase;
+using Firebase.Auth.Providers;
+using Firebase.Auth;
 
 namespace PlotterDuck
 {
@@ -40,7 +42,17 @@ namespace PlotterDuck
 					ProjectId = "plotterduck",
 				});
 			}
-            
+
+            builder.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
+            {
+                ApiKey = "AIzaSyA9z_SEEU6m-pFW9mplFcYhWEzKkxCtB3E",
+                AuthDomain = "plotterduck.firebaseapp.com",
+                Providers = new FirebaseAuthProvider[]
+                {
+                    new EmailProvider()
+                }
+            }));
+
             #endregion
 
             builder.Services.AddMauiBlazorWebView();

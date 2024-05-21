@@ -1,4 +1,4 @@
-﻿@page "/authForm"
+﻿@page "/signForm"
 @using System.Text.RegularExpressions
 @using Firebase.Auth
 @using PlotterDuck.Components.Models.Firebase
@@ -33,6 +33,7 @@
     AuthData _authData;
 
     FirebaseAuthService authService = new FirebaseAuthService();
+    //AuthData _authForm = new AuthData(email: "test", password: "test");
 
     string Info = "";
 
@@ -50,8 +51,7 @@
     {
         if (IsValidEmail(formData.email) && IsValidPassword(formData.password))
         {
-            SetAuthData();
-            await authService.SignUp(_authData.email, _authData.password);
+            await authService.SignUp(formData.email, formData.password);
             Info = "Login in progress...";
         }
         else
